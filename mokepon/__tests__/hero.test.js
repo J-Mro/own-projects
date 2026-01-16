@@ -102,5 +102,26 @@ describe("Encounter class", () => {
       const encounter = new Encounter();
       expect(typeof encounter.resolve(trainer)).toBe("string");
     });
+    test('returns a string with the output "trainer.name encounters: this.description"', () => {
+      const trainer = new Trainer("Red");
+      const encounter = new Encounter("a wild Chikapu", 3);
+      expect(encounter.resolve(trainer)).toBe("Red encounters: a wild Chikapu");
+    });
+    test("returns a dynamic string with the desired output", () => {
+      const red = new Trainer("Red");
+      const blue = new Trainer("Blue");
+      const chikapu = new Encounter("a wild Chikapu", 3);
+      const marchander = new Encounter("a wild Marchander", 5);
+      expect(chikapu.resolve(red)).toBe("Red encounters: a wild Chikapu");
+      expect(marchander.resolve(blue)).toBe(
+        "Blue encounters: a wild Marchander"
+      );
+    });
+    test("challenges the trainer and reduces Trainer hp value", () => {
+      const red = new Trainer("Red");
+      const chikapu = new Encounter("a wild Chikapu", 3);
+      chikapu.resolve(red);
+      expect(red.hp).toBe(47);
+    });
   });
 });

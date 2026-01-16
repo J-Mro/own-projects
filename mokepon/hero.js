@@ -29,7 +29,8 @@ class Encounter {
     this.damage = damage;
   }
   resolve(trainer) {
-    return "";
+    trainer.challenge(this.damage);
+    return `${trainer.name} encounters: ${this.description}`;
   }
 }
 
