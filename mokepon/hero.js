@@ -1,25 +1,25 @@
-class Trainer {
-  constructor(name, maxHP = 50) {
+class Hero {
+  constructor(name, maxCourage = 50) {
     this.name = name;
-    this.maxHP = maxHP;
-    this.hp = maxHP;
+    this.maxCourage = maxCourage;
+    this.courage = maxCourage;
   }
-  challenge(hp) {
-    if (this.hp - hp <= 0) {
-      this.hp = 0;
+  test(courage) {
+    if (this.courage - courage <= 0) {
+      this.courage = 0;
     } else {
-      this.hp -= hp;
+      this.courage -= courage;
     }
   }
-  gainHP(hp) {
-    if (this.hp + hp >= this.maxHP) {
-      this.hp = this.maxHP;
+  gainCourage(courage) {
+    if (this.courage + courage >= this.maxCourage) {
+      this.courage = this.maxCourage;
     } else {
-      this.hp += hp;
+      this.courage += courage;
     }
   }
   hasFainted() {
-    return this.hp === 0;
+    return this.courage === 0;
   }
 }
 
@@ -28,10 +28,10 @@ class Encounter {
     this.description = description;
     this.damage = damage;
   }
-  resolve(trainer) {
-    trainer.challenge(this.damage);
-    return `${trainer.name} encounters: ${this.description}`;
+  resolve(hero) {
+    hero.test(this.damage);
+    return `${hero.name} encounters: ${this.description}`;
   }
 }
 
-module.exports = { Trainer, Encounter };
+module.exports = { Hero, Encounter };

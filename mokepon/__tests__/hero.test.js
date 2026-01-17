@@ -1,85 +1,85 @@
-const { Trainer, Encounter } = require("../hero.js");
-describe("Trainer class", () => {
+const { Hero, Encounter } = require("../hero.js");
+describe("Hero class", () => {
   test("has a name property", () => {
-    const trainer = new Trainer();
-    expect(trainer).toHaveProperty("name");
+    const hero = new Hero();
+    expect(hero).toHaveProperty("name");
   });
-  test("has a maxHP property", () => {
-    const trainer = new Trainer();
-    expect(trainer).toHaveProperty("maxHP");
+  test("has a maxCourage property", () => {
+    const hero = new Hero();
+    expect(hero).toHaveProperty("maxCourage");
   });
-  test("maxHP has a default value of 50", () => {
-    const trainer = new Trainer();
-    expect(trainer.maxHP).toBe(50);
+  test("maxCourage has a default value of 50", () => {
+    const hero = new Hero();
+    expect(hero.maxCourage).toBe(50);
   });
-  test("has an hp property", () => {
-    const trainer = new Trainer();
-    expect(trainer).toHaveProperty("hp");
+  test("has an courage property", () => {
+    const hero = new Hero();
+    expect(hero).toHaveProperty("courage");
   });
-  test("hp property is set to the value of the maxHP", () => {
-    const trainer = new Trainer();
-    expect(trainer.hp).toBe(50);
+  test("courage property is set to the value of the maxCourage", () => {
+    const hero = new Hero();
+    expect(hero.courage).toBe(50);
   });
-  describe("Methods: challenge", () => {
-    test("has a challenge method", () => {
-      const trainer = new Trainer();
-      expect(trainer).toHaveProperty("challenge");
+  describe("Methods: test", () => {
+    test("has a test method", () => {
+      const hero = new Hero();
+      expect(hero).toHaveProperty("test");
     });
-    test("does not change the value of Trainer's hp when passed an hp value of 0", () => {
-      const trainer = new Trainer();
-      trainer.challenge(0);
-      expect(trainer.hp).toBe(50);
+    test("does not change the value of Hero's courage when passed an courage value of 0", () => {
+      const hero = new Hero();
+      hero.test(0);
+      expect(hero.courage).toBe(50);
     });
-    test("decreases the value of Trainer's hp when passed a non-zero value", () => {
-      const trainer = new Trainer();
-      trainer.challenge(10);
-      expect(trainer.hp).toBe(40);
+    test("decreases the value of Hero's courage when passed a non-zero value", () => {
+      const hero = new Hero();
+      hero.test(10);
+      expect(hero.courage).toBe(40);
     });
-    test("does not decrease the Trainer's hp past 0", () => {
-      const trainer = new Trainer();
-      trainer.challenge(60);
-      expect(trainer.hp).toBe(0);
+    test("does not decrease the Hero's courage past 0", () => {
+      const hero = new Hero();
+      hero.test(60);
+      expect(hero.courage).toBe(0);
     });
   });
-  describe("Methods: gainHP", () => {
-    test("has a gainHP method", () => {
-      const trainer = new Trainer();
-      expect(trainer).toHaveProperty("gainHP");
+  describe("Methods: gainCourage", () => {
+    test("has a gainCourage method", () => {
+      const hero = new Hero();
+      expect(hero).toHaveProperty("gainCourage");
     });
-    test("does not change Trainer hp value when passed a value of 0", () => {
-      const trainer = new Trainer();
-      trainer.gainHP(0);
-      expect(trainer.hp).toBe(50);
+    test("does not change Hero courage value when passed a value of 0", () => {
+      const hero = new Hero();
+      hero.gainCourage(0);
+      expect(hero.courage).toBe(50);
     });
-    test("increases Trainer hp value when passed a non-zero value", () => {
-      const trainer = new Trainer();
-      trainer.hp = 20;
-      trainer.gainHP(10);
-      expect(trainer.hp).toBe(30);
+    test("increases Hero courage value when passed a non-zero value", () => {
+      const hero = new Hero();
+      hero.courage = 20;
+      hero.gainCourage(10);
+      expect(hero.courage).toBe(30);
     });
-    test("does not increase Trainer hp value above max value", () => {
-      const trainer = new Trainer();
-      trainer.gainHP(10);
-      expect(trainer.hp).toBe(50);
+    test("does not increase Hero courage value above max value", () => {
+      const hero = new Hero();
+      hero.gainCourage(10);
+      expect(hero.courage).toBe(50);
     });
   });
   describe("Methods: hasFainted", () => {
     test("has a hasFainted method", () => {
-      const trainer = new Trainer();
-      expect(trainer).toHaveProperty("hasFainted");
+      const hero = new Hero();
+      expect(hero).toHaveProperty("hasFainted");
     });
     test("returns a boolean", () => {
-      const trainer = new Trainer();
-      expect(typeof trainer.hasFainted()).toBe("boolean");
+      const hero = new Hero();
+      expect(typeof hero.hasFainted()).toBe("boolean");
     });
-    test("returns true if Trainer has an hp value of 0", () => {
-      const trainer = new Trainer();
-      trainer.hp = 0;
-      expect(trainer.hasFainted()).toBe(true);
+    test("returns true if Hero has an courage value of 0", () => {
+      const hero = new Hero();
+      hero.courage = 0;
+      expect(hero.hasFainted()).toBe(true);
     });
-    test("returns false if Trainer has an hp value above 0", () => {
-      const trainer = new Trainer();
-      expect(trainer.hasFainted()).toBe(false);
+    test("returns false if Hero has an courage value above 0", () => {
+      const hero = new Hero();
+      expect(hero.hasFainted()).toBe(false);
     });
   });
 });
@@ -98,18 +98,18 @@ describe("Encounter class", () => {
       expect(encounter).toHaveProperty("resolve");
     });
     test("returns a string", () => {
-      const trainer = new Trainer("Red");
+      const hero = new Hero("Red");
       const encounter = new Encounter();
-      expect(typeof encounter.resolve(trainer)).toBe("string");
+      expect(typeof encounter.resolve(hero)).toBe("string");
     });
-    test('returns a string with the output "trainer.name encounters: this.description"', () => {
-      const trainer = new Trainer("Red");
+    test('returns a string with the output "hero.name encounters: this.description"', () => {
+      const hero = new Hero("Red");
       const encounter = new Encounter("a wild Chikapu", 3);
-      expect(encounter.resolve(trainer)).toBe("Red encounters: a wild Chikapu");
+      expect(encounter.resolve(hero)).toBe("Red encounters: a wild Chikapu");
     });
     test("returns a dynamic string with the desired output", () => {
-      const red = new Trainer("Red");
-      const blue = new Trainer("Blue");
+      const red = new Hero("Red");
+      const blue = new Hero("Blue");
       const chikapu = new Encounter("a wild Chikapu", 3);
       const marchander = new Encounter("a wild Marchander", 5);
       expect(chikapu.resolve(red)).toBe("Red encounters: a wild Chikapu");
@@ -117,11 +117,11 @@ describe("Encounter class", () => {
         "Blue encounters: a wild Marchander"
       );
     });
-    test("challenges the trainer and reduces Trainer hp value", () => {
-      const red = new Trainer("Red");
+    test("tests the hero and reduces Hero courage value", () => {
+      const red = new Hero("Red");
       const chikapu = new Encounter("a wild Chikapu", 3);
       chikapu.resolve(red);
-      expect(red.hp).toBe(47);
+      expect(red.courage).toBe(47);
     });
   });
 });
