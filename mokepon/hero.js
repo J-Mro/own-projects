@@ -24,16 +24,41 @@ class Hero {
 }
 
 class Encounter {
-  constructor(description, damage) {
+  constructor(description, challengeLevel) {
     this.description = description;
-    this.damage = damage;
+    this.challengeLevel = challengeLevel;
   }
   resolve(hero) {
-    hero.test(this.damage);
+    hero.test(this.challengeLevel);
     return `${hero.name} encounters: ${this.description}`;
   }
 }
 
-class Quest {}
+class Quest {
+  constructor(title, description) {
+    this.title = title;
+    this.description = description;
+    this.encounters = [];
+  }
+  addEncounter(encounter) {
+    this.encounters.push(encounter);
+  }
+  describe() {
+    const descriptions = [];
+    for (const encounter of this.encounters) {
+      descriptions.push(encounter.description);
+    }
+    return descriptions;
+  }
+}
 
-module.exports = { Hero, Encounter, Quest };
+class ExplorationEncounter extends Encounter {
+  constructor(description, challengeLevel) {
+    super(description, challengeLevel);
+  }
+  resolve(hero) {
+    return `${hero.name} explores: ${this.description}`;
+  }
+}
+
+module.exports = { Hero, Encounter, Quest, ExplorationEncounter };

@@ -1,4 +1,4 @@
-const { Hero, Encounter, Quest } = require("../hero.js");
+const { Hero, Encounter, Quest, ExplorationEncounter } = require("../hero.js");
 describe("Hero class", () => {
   test("has a name property", () => {
     const hero = new Hero();
@@ -88,9 +88,9 @@ describe("Encounter class", () => {
     const encounter = new Encounter();
     expect(encounter).toHaveProperty("description");
   });
-  test("has a damage property", () => {
+  test("has a challengeLevel property", () => {
     const encounter = new Encounter();
-    expect(encounter).toHaveProperty("damage");
+    expect(encounter).toHaveProperty("challengeLevel");
   });
   describe("Methods: resolve", () => {
     test("has a resolve method", () => {
@@ -125,4 +125,109 @@ describe("Encounter class", () => {
     });
   });
 });
-describe("Quest class", () => {});
+describe("Quest class", () => {
+  test("has a title property", () => {
+    const testQuest = new Quest();
+    expect(testQuest).toHaveProperty("title");
+  });
+  test("has a description property", () => {
+    const testQuest = new Quest();
+    expect(testQuest).toHaveProperty("description");
+  });
+  test("has a encounters property", () => {
+    const testQuest = new Quest();
+    expect(testQuest).toHaveProperty("encounters");
+  });
+  test("encounters property has a value of an empty array by default", () => {
+    const testQuest = new Quest();
+    expect(testQuest.encounters).toEqual([]);
+  });
+  describe("Method: addEncounter", () => {
+    test("Quest has an addEncounter method", () => {
+      const testQuest = new Quest();
+      expect(testQuest).toHaveProperty("addEncounter");
+    });
+    test("adds a single encounter to encounters array when a single encounter is passed", () => {
+      const testQuest = new Quest();
+      const gandalf = new Encounter("An unexpected visit from Gandalf", 1);
+      testQuest.addEncounter(gandalf);
+      const expected = [
+        { description: "An unexpected visit from Gandalf", challengeLevel: 1 },
+      ];
+      expect(testQuest.encounters).toEqual(expected);
+    });
+    test("adds multiple encounters to encounters array when multiple encounters are passed", () => {
+      const testQuest = new Quest();
+      const gandalf = new Encounter("An unexpected visit from Gandalf", 1);
+      const dwarves = new Encounter(
+        "A Dwarven company comes round for supper",
+        3
+      );
+      testQuest.addEncounter(gandalf);
+      testQuest.addEncounter(dwarves);
+      const expected = [
+        { description: "An unexpected visit from Gandalf", challengeLevel: 1 },
+        {
+          description: "A Dwarven company comes round for supper",
+          challengeLevel: 3,
+        },
+      ];
+      expect(testQuest.encounters).toEqual(expected);
+    });
+  });
+  describe("Method: describe", () => {
+    test("has a describe method", () => {
+      const testQuest = new Quest();
+      expect(testQuest).toHaveProperty("describe");
+    });
+    test("returns an array", () => {
+      const testQuest = new Quest();
+      expect(Array.isArray(testQuest.describe())).toBe(true);
+    });
+    test("returns an array of the encounter description when the encounter array has one encounter", () => {
+      const testQuest = new Quest();
+      const gandalf = new Encounter("An unexpected visit from Gandalf", 1);
+      testQuest.addEncounter(gandalf);
+      expect(testQuest.describe()).toEqual([
+        "An unexpected visit from Gandalf",
+      ]);
+    });
+    test("returns an array of the encounter descriptions when the encounter array has multiple encounter", () => {
+      const testQuest = new Quest();
+      const gandalf = new Encounter("An unexpected visit from Gandalf", 1);
+      const dwarves = new Encounter(
+        "A Dwarven company comes round for supper",
+        3
+      );
+      testQuest.addEncounter(gandalf);
+      testQuest.addEncounter(dwarves);
+      const expected = [
+        "An unexpected visit from Gandalf",
+        "A Dwarven company comes round for supper",
+      ];
+      expect(testQuest.describe()).toEqual(expected);
+    });
+  });
+});
+describe("ExplorationEncounter Class", () => {
+  describe("Method: resolve", () => {
+    test("returns a string", () => {
+      const bilbo = new Hero("Bilbo");
+      const testExploration = new ExplorationEncounter(
+        "Escaping goblin tunnels",
+        3
+      );
+      expect(typeof testExploration.resolve(bilbo)).toBe("string");
+    });
+    test("returns a string with the format (hero name) explores: (description)", () => {
+      const bilbo = new Hero("Bilbo");
+      const testExploration = new ExplorationEncounter(
+        "Escaping goblin tunnels",
+        3
+      );
+      expect(testExploration.resolve(bilbo)).toBe(
+        "Bilbo explores: Escaping goblin tunnels"
+      );
+    });
+  });
+});
