@@ -1,4 +1,11 @@
-const { Hero, Encounter, Quest, ExplorationEncounter } = require("../hero.js");
+const {
+  Hero,
+  Encounter,
+  Quest,
+  ExplorationEncounter,
+  TreasureEncounter,
+} = require("../hero.js");
+
 describe("Hero class", () => {
   test("has a name property", () => {
     const hero = new Hero();
@@ -228,6 +235,81 @@ describe("ExplorationEncounter Class", () => {
       expect(testExploration.resolve(bilbo)).toBe(
         "Bilbo explores: Escaping goblin tunnels"
       );
+    });
+    test("reduces Hero courage via the Hero test method when resolve is invoked with the Hero once", () => {
+      const bilbo = new Hero("Bilbo");
+      const testExploration = new ExplorationEncounter(
+        "Escaping goblin tunnels",
+        3
+      );
+      testExploration.resolve(bilbo);
+      expect(bilbo.courage).toBe(47);
+    });
+    test("reduces Hero courage via the Hero test method when resolve is invoked with the Hero multiple times", () => {
+      const bilbo = new Hero("Bilbo");
+      const testExploration = new ExplorationEncounter(
+        "Escaping goblin tunnels",
+        3
+      );
+      const moreGoblins = new ExplorationEncounter("Taking the wrong exit", 40);
+      const evenMoreGoblines = new ExplorationEncounter("The true exit", 6);
+      testExploration.resolve(bilbo);
+      moreGoblins.resolve(bilbo);
+      evenMoreGoblines.resolve(bilbo);
+      expect(bilbo.courage).toBe(1);
+    });
+    test("does not reduce the Hero's courage beneath 0", () => {
+      const bilbo = new Hero("Bilbo");
+      const testExploration = new ExplorationEncounter(
+        "Escaping goblin tunnels",
+        3
+      );
+      const moreGoblins = new ExplorationEncounter("Taking the wrong exit", 40);
+      const evenMoreGoblines = new ExplorationEncounter("The true exit", 8);
+      testExploration.resolve(bilbo);
+      moreGoblins.resolve(bilbo);
+      evenMoreGoblines.resolve(bilbo);
+      expect(bilbo.courage).toBe(0);
+    });
+  });
+});
+describe("TreasureEncounter Class", () => {
+  test("has a description property", () => {
+    const testTreasure = new TreasureEncounter();
+    expect(testTreasure).toHaveProperty("description");
+  });
+  test("has a challengeLevel property", () => {
+    const testTreasure = new TreasureEncounter();
+    expect(testTreasure).toHaveProperty("challengeLevel");
+  });
+  test("has a challengeLevel property that is set to 0", () => {
+    const testTreasure = new TreasureEncounter();
+    expect(testTreasure.challengeLevel).toBe(0);
+  });
+  describe("Method: resolve", () => {
+    test("has a resolve method", () => {
+      const testTreasure = new TreasureEncounter();
+      expect(testTreasure).toHaveProperty("resolve");
+    });
+    test("returns a string", () => {
+      const bilbo = new Hero("Bilbo");
+      const testTreasure = new TreasureEncounter();
+      expect(typeof testTreasure.resolve(bilbo)).toBe("string");
+    });
+    test("returns a string with the format (hero name) discovers: (description) and feels braver!", () => {
+      const bilbo = new Hero("Bilbo");
+      const ring = new TreasureEncounter("A Magic Ring");
+      expect(ring.resolve(bilbo)).toBe(
+        "Bilbo discovers: A Magic Ring and feels braver!"
+      );
+    });
+    test("increases Hero courage value by default value of 3", () => {
+      const bilbo = new Hero("Bilbo");
+      const testEncounter = new Encounter("test", 5);
+      const ring = new TreasureEncounter("A Magic Ring");
+      testEncounter.resolve(bilbo);
+      ring.resolve(bilbo);
+      expect(bilbo.courage).toBe(48);
     });
   });
 });

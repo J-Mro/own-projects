@@ -57,8 +57,26 @@ class ExplorationEncounter extends Encounter {
     super(description, challengeLevel);
   }
   resolve(hero) {
+    hero.test(this.challengeLevel);
     return `${hero.name} explores: ${this.description}`;
   }
 }
 
-module.exports = { Hero, Encounter, Quest, ExplorationEncounter };
+class TreasureEncounter extends Encounter {
+  constructor(description) {
+    super(description);
+    this.challengeLevel = 0;
+  }
+  resolve(hero, courageGained = 3) {
+    hero.gainCourage(courageGained);
+    return `${hero.name} discovers: ${this.description} and feels braver!`;
+  }
+}
+
+module.exports = {
+  Hero,
+  Encounter,
+  Quest,
+  ExplorationEncounter,
+  TreasureEncounter,
+};
