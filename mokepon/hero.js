@@ -73,10 +73,21 @@ class TreasureEncounter extends Encounter {
   }
 }
 
+class CombatEncounter extends Encounter {
+  constructor(description, challengeLevel) {
+    super(description, challengeLevel);
+  }
+  resolve(hero) {
+    hero.test(this.challengeLevel);
+    return `${hero.name} battles: ${this.description}`;
+  }
+}
+
 module.exports = {
   Hero,
   Encounter,
   Quest,
   ExplorationEncounter,
   TreasureEncounter,
+  CombatEncounter,
 };

@@ -4,6 +4,7 @@ const {
   Quest,
   ExplorationEncounter,
   TreasureEncounter,
+  CombatEncounter,
 } = require("../hero.js");
 
 describe("Hero class", () => {
@@ -310,6 +311,67 @@ describe("TreasureEncounter Class", () => {
       testEncounter.resolve(bilbo);
       ring.resolve(bilbo);
       expect(bilbo.courage).toBe(48);
+    });
+  });
+});
+describe("CombatEncounter Class", () => {
+  test("has a description property", () => {
+    const testCombat = new CombatEncounter();
+    expect(testCombat).toHaveProperty("description");
+  });
+  test("has a challengeLevel property", () => {
+    const testCombat = new CombatEncounter();
+    expect(testCombat).toHaveProperty("challengeLevel");
+  });
+  describe("Method: resolve", () => {
+    test("has a resolve method", () => {
+      const testCombat = new CombatEncounter();
+      expect(testCombat).toHaveProperty("resolve");
+    });
+    test("returns a string", () => {
+      const bilbo = new Hero("Bilbo");
+      const battle = new CombatEncounter("Three Trolls", 4);
+      expect(typeof battle.resolve(bilbo)).toBe("string");
+    });
+    test("returns a string with the format (Hero name) battles: (description)", () => {
+      const bilbo = new Hero("Bilbo");
+      const gandalf = new Hero("Gandalf");
+      const battle = new CombatEncounter("Three Trolls", 4);
+      const battle2 = new CombatEncounter("Five Ogres", 8);
+      expect(battle.resolve(bilbo)).toBe("Bilbo battles: Three Trolls");
+      expect(battle2.resolve(gandalf)).toBe("Gandalf battles: Five Ogres");
+    });
+    test("does not change the Hero's courage if a challenge level of 0 is passed", () => {
+      const bilbo = new Hero("Bilbo");
+      const battle = new CombatEncounter("Three Trolls", 0);
+      battle.resolve(bilbo);
+      expect(bilbo.courage).toBe(50);
+    });
+    test("reduces the Hero's courage by the challenge level passed into a single instance of CombatEncounter", () => {
+      const bilbo = new Hero("Bilbo");
+      const battle = new CombatEncounter("Three Trolls", 4);
+      battle.resolve(bilbo);
+      expect(bilbo.courage).toBe(46);
+    });
+    test("reduces the Hero's courage for multiple instances of a CombatEncounter", () => {
+      const bilbo = new Hero("Bilbo");
+      const battle = new CombatEncounter("Three Trolls", 4);
+      const battle2 = new CombatEncounter("Five Ogres", 8);
+      const battle3 = new CombatEncounter("A Great Big Thing", 10);
+      battle.resolve(bilbo);
+      battle2.resolve(bilbo);
+      battle3.resolve(bilbo);
+      expect(bilbo.courage).toBe(28);
+    });
+    test("Hero's courage is not reduced below 0", () => {
+      const bilbo = new Hero("Bilbo");
+      const battle = new CombatEncounter("Three Trolls", 10);
+      const battle2 = new CombatEncounter("Five Ogres", 30);
+      const battle3 = new CombatEncounter("A Great Big Thing", 15);
+      battle.resolve(bilbo);
+      battle2.resolve(bilbo);
+      battle3.resolve(bilbo);
+      expect(bilbo.courage).toBe(0);
     });
   });
 });
