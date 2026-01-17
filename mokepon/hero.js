@@ -34,4 +34,6 @@ class Encounter {
   }
 }
 
-module.exports = { Hero, Encounter };
+class Quest {}
+
+module.exports = { Hero, Encounter, Quest };

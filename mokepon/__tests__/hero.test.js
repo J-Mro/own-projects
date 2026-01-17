@@ -1,4 +1,4 @@
-const { Hero, Encounter } = require("../hero.js");
+const { Hero, Encounter, Quest } = require("../hero.js");
 describe("Hero class", () => {
   test("has a name property", () => {
     const hero = new Hero();
@@ -125,3 +125,4 @@ describe("Encounter class", () => {
     });
   });
 });
+describe("Quest class", () => {});
