@@ -376,11 +376,95 @@ describe("CombatEncounter Class", () => {
   });
 });
 describe("Quest: Method: attempt", () => {
-  test("has an attempt method", () => {});
-  test("returns an array", () => {});
-  test("first element of array is of the format (hero name) attempts the quest: (description)", () => {});
-  test("adds one encounter resolve when Hero has has a single Encounter", () => {});
-  test("adds multiple encounter resolves when Hero has multiple Encounters", () => {});
-  test("returns an array where the last element is a completion message when Hero isBroken is false", () => {});
-  test("returns an array where the last element is a failure message when Hero isBroken is true", () => {});
+  test("has an attempt method", () => {
+    const testQuest = new Quest();
+    expect(testQuest).toHaveProperty("attempt");
+  });
+  test("returns an array", () => {
+    const bilbo = new Hero("Bilbo");
+    const testQuest = new Quest();
+    expect(Array.isArray(testQuest.attempt(bilbo))).toBe(true);
+  });
+  test("first element of array is of the format (hero name) attempts the quest: (description)", () => {
+    const bilbo = new Hero("Bilbo");
+    const testQuest = new Quest(
+      "Through the Wild",
+      "The hero faces dangers outside the Shire"
+    );
+    expect(testQuest.attempt(bilbo)[0]).toBe(
+      "Bilbo attempts the quest: Through the Wild"
+    );
+  });
+  test("adds one encounter resolve when Hero has has a single Encounter", () => {
+    const bilbo = new Hero("Bilbo");
+    const testQuest = new Quest(
+      "Through the Wild",
+      "The hero faces dangers outside the Shire"
+    );
+    testQuest.addEncounter(new CombatEncounter("Three Trolls", 4));
+    expect(testQuest.attempt(bilbo)).toEqual([
+      "Bilbo attempts the quest: Through the Wild",
+      "Bilbo battles: Three Trolls",
+      "Bilbo completes the quest: Through the Wild!",
+    ]);
+  });
+  test("adds multiple encounter resolves when Hero has multiple Encounters", () => {
+    const bilbo = new Hero("Bilbo");
+    const testQuest = new Quest(
+      "Through the Wild",
+      "The hero faces dangers outside the Shire",
+      "Bilbo completes the quest: Through the Wild!"
+    );
+    testQuest.addEncounter(new CombatEncounter("Three Trolls", 4));
+    testQuest.addEncounter(
+      new ExplorationEncounter("Escaping goblin tunnels", 3)
+    );
+    testQuest.addEncounter(new TreasureEncounter("a Magic Ring"));
+    expect(testQuest.attempt(bilbo)).toEqual([
+      "Bilbo attempts the quest: Through the Wild",
+      "Bilbo battles: Three Trolls",
+      "Bilbo explores: Escaping goblin tunnels",
+      "Bilbo discovers: a Magic Ring and feels braver!",
+      "Bilbo completes the quest: Through the Wild!",
+    ]);
+  });
+  test("returns an array where the last element is a completion message when Hero isBroken is false", () => {
+    const bilbo = new Hero("Bilbo");
+    const testQuest = new Quest(
+      "Through the Wild",
+      "The hero faces dangers outside the Shire",
+      "Bilbo completes the quest: Through the Wild!"
+    );
+    testQuest.addEncounter(new CombatEncounter("Three Trolls", 4));
+    testQuest.addEncounter(
+      new ExplorationEncounter("Escaping goblin tunnels", 3)
+    );
+    testQuest.addEncounter(new TreasureEncounter("a Magic Ring"));
+    expect(testQuest.attempt(bilbo)).toEqual([
+      "Bilbo attempts the quest: Through the Wild",
+      "Bilbo battles: Three Trolls",
+      "Bilbo explores: Escaping goblin tunnels",
+      "Bilbo discovers: a Magic Ring and feels braver!",
+      "Bilbo completes the quest: Through the Wild!",
+    ]);
+  });
+  test("returns an array where the last element is a failure message when Hero isBroken is true", () => {
+    const bilbo = new Hero("Bilbo");
+    const testQuest = new Quest(
+      "Through the Wild",
+      "The hero faces dangers outside the Shire",
+      "Bilbo completes the quest: Through the Wild!"
+    );
+    testQuest.addEncounter(new CombatEncounter("Three Trolls", 47));
+    testQuest.addEncounter(
+      new ExplorationEncounter("Escaping goblin tunnels", 30)
+    );
+    testQuest.addEncounter(new TreasureEncounter("a Magic Ring"));
+    expect(testQuest.attempt(bilbo)).toEqual([
+      "Bilbo attempts the quest: Through the Wild",
+      "Bilbo battles: Three Trolls",
+      "Bilbo explores: Escaping goblin tunnels",
+      "Bilbo fails the quest: Through the Wild!",
+    ]);
+  });
 });

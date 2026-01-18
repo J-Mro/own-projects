@@ -50,6 +50,18 @@ class Quest {
     }
     return descriptions;
   }
+  attempt(hero) {
+    const quests = [`${hero.name} attempts the quest: ${this.title}`];
+    for (const encounter of this.encounters) {
+      quests.push(encounter.resolve(hero));
+      if (hero.isBroken()) {
+        quests.push(`${hero.name} fails the quest: ${this.title}!`);
+        return quests;
+      }
+    }
+    quests.push(`${hero.name} completes the quest: ${this.title}!`);
+    return quests;
+  }
 }
 
 class ExplorationEncounter extends Encounter {
