@@ -18,7 +18,7 @@ class Hero {
       this.courage += courage;
     }
   }
-  hasFainted() {
+  isBroken() {
     return this.courage === 0;
   }
 }

@@ -71,23 +71,23 @@ describe("Hero class", () => {
       expect(hero.courage).toBe(50);
     });
   });
-  describe("Methods: hasFainted", () => {
-    test("has a hasFainted method", () => {
+  describe("Methods: isBroken", () => {
+    test("has a isBroken method", () => {
       const hero = new Hero();
-      expect(hero).toHaveProperty("hasFainted");
+      expect(hero).toHaveProperty("isBroken");
     });
     test("returns a boolean", () => {
       const hero = new Hero();
-      expect(typeof hero.hasFainted()).toBe("boolean");
+      expect(typeof hero.isBroken()).toBe("boolean");
     });
     test("returns true if Hero has an courage value of 0", () => {
       const hero = new Hero();
       hero.courage = 0;
-      expect(hero.hasFainted()).toBe(true);
+      expect(hero.isBroken()).toBe(true);
     });
     test("returns false if Hero has an courage value above 0", () => {
       const hero = new Hero();
-      expect(hero.hasFainted()).toBe(false);
+      expect(hero.isBroken()).toBe(false);
     });
   });
 });
@@ -374,4 +374,13 @@ describe("CombatEncounter Class", () => {
       expect(bilbo.courage).toBe(0);
     });
   });
+});
+describe("Quest: Method: attempt", () => {
+  test("has an attempt method", () => {});
+  test("returns an array", () => {});
+  test("first element of array is of the format (hero name) attempts the quest: (description)", () => {});
+  test("adds one encounter resolve when Hero has has a single Encounter", () => {});
+  test("adds multiple encounter resolves when Hero has multiple Encounters", () => {});
+  test("returns an array where the last element is a completion message when Hero isBroken is false", () => {});
+  test("returns an array where the last element is a failure message when Hero isBroken is true", () => {});
 });
