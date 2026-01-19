@@ -468,3 +468,13 @@ describe("Quest: Method: attempt", () => {
     ]);
   });
 });
+describe("Hero Class Update: currentQuest property", () => {
+  test("has a currentQuest property", () => {
+    const testHero = new Hero();
+    expect(testHero).toHaveProperty("currentQuest");
+  });
+  test("Hero.currentQuest > has a default value of null", () => {
+    const testHero = new Hero();
+    expect(testHero.currentQuest).toBe(null);
+  });
+});

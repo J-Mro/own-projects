@@ -3,6 +3,7 @@ class Hero {
     this.name = name;
     this.maxCourage = maxCourage;
     this.courage = maxCourage;
+    this.currentQuest = null;
   }
   test(courage) {
     if (this.courage - courage <= 0) {
